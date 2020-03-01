@@ -1,6 +1,6 @@
 # evpkdf
 
-Rust implemnet of OpenSSL [EVP_bytesToKey] function.
+Rust implementation of OpenSSL [EVP_bytesToKey] function.
 
 `evpkdf` derives key from the given password and salt.
 
@@ -23,19 +23,19 @@ use sha1::Sha1; // from sha-1 crate
 
 let mut output = [];
 
-evpkdf::<Md5>("password", "saltsalt", 1000, &mut output);
+evpkdf::<Md5>(b"password", b"saltsalt", 1000, &mut output);
 
 assert_eq!(output, []);
 
 let mut output = [0; 128 / 8];
 
-evpkdf::<Md5>("password", "saltsalt", 1000, &mut output);
+evpkdf::<Md5>(b"password", b"saltsalt", 1000, &mut output);
 
 assert_eq!(output, hex!("8006de5d2a5d15f9bbdb8f40196d5af1"));
 
 let mut output = [0; 128 / 8];
 
-evpkdf::<Sha1>("password", "saltsalt", 1000, &mut output);
+evpkdf::<Sha1>(b"password", b"saltsalt", 1000, &mut output);
 
 assert_eq!(output, hex!("f8833429b112582447bc66f433497f75"));
 ```
@@ -55,7 +55,7 @@ const IV_SIZE: usize = 128;
 
 let mut output = [0; (KEY_SIZE + IV_SIZE) / 8];
 
-evpkdf::<Md5>("password", "saltsalt", 1, &mut output);
+evpkdf::<Md5>(b"password", b"saltsalt", 1, &mut output);
 
 let (key, iv) = output.split_at(KEY_SIZE / 8);
 

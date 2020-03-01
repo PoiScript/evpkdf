@@ -1,0 +1,18 @@
+[package]
+name = "evpkdf"
+version = "0.1.0"
+authors = ["PoiScript <poiscript@gmail.com>"]
+edition = "2018"
+description = "Rust implementation of OpenSSL EVP_bytesToKey function."
+repository = "https://github.com/PoiScript/evpkdf"
+readme = "README.md"
+license = "MIT"
+keywords = ["evpkdf", "openssl", "cryptography"]
+
+[dependencies]
+digest = "0.8.1"
+
+[dev-dependencies]
+hex-literal = "0.2.1"
+md-5 = "0.8.0"
+sha-1 = "0.8.2"

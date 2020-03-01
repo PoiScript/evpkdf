@@ -21,19 +21,19 @@
 //!
 //! let mut output = [];
 //!
-//! evpkdf::<Md5>("password", "saltsalt", 1000, &mut output);
+//! evpkdf::<Md5>(b"password", b"saltsalt", 1000, &mut output);
 //!
 //! assert_eq!(output, []);
 //!
 //! let mut output = [0; 128 / 8];
 //!
-//! evpkdf::<Md5>("password", "saltsalt", 1000, &mut output);
+//! evpkdf::<Md5>(b"password", b"saltsalt", 1000, &mut output);
 //!
 //! assert_eq!(output, hex!("8006de5d2a5d15f9bbdb8f40196d5af1"));
 //!
 //! let mut output = [0; 128 / 8];
 //!
-//! evpkdf::<Sha1>("password", "saltsalt", 1000, &mut output);
+//! evpkdf::<Sha1>(b"password", b"saltsalt", 1000, &mut output);
 //!
 //! assert_eq!(output, hex!("f8833429b112582447bc66f433497f75"));
 //! ```
@@ -53,7 +53,7 @@
 //!
 //! let mut output = [0; (KEY_SIZE + IV_SIZE) / 8];
 //!
-//! evpkdf::<Md5>("password", "saltsalt", 1, &mut output);
+//! evpkdf::<Md5>(b"password", b"saltsalt", 1, &mut output);
 //!
 //! let (key, iv) = output.split_at(KEY_SIZE / 8);
 //!
@@ -83,13 +83,13 @@ use digest::Digest;
 /// let mut output = [0; 128 / 8]; // key size, 128 bits
 ///
 /// evpkdf::<Md5>(
-///     "password", // password
-///     "saltsalt", // salt
-///     1000,       // iteration count
+///     b"password", // password
+///     b"saltsalt", // salt
+///     1000,        // iteration count
 ///     &mut output
 /// );
 /// ```
-pub fn evpkdf<D: Digest, S: AsRef<[u8]>>(pass: &str, salt: S, count: usize, output: &mut [u8]) {
+pub fn evpkdf<D: Digest>(pass: &[u8], salt: &[u8], count: usize, output: &mut [u8]) {
     let mut hasher = D::new();
     let mut derived_key = Vec::with_capacity(output.len());
     let mut block = Vec::new();

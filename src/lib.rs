@@ -89,24 +89,24 @@ use digest::Digest;
 ///     &mut output
 /// );
 /// ```
-pub fn evpkdf<D: Digest>(pass: &[u8], salt: &[u8], count: usize, output: &mut [u8]) {
-    let mut hasher = D::new();
+pub fn evpkdf<D: Default + Digest>(pass: &[u8], salt: &[u8], count: usize, output: &mut [u8]) {
+    let mut hasher = D::default();
     let mut derived_key = Vec::with_capacity(output.len());
     let mut block = Vec::new();
 
     while derived_key.len() < output.len() {
         if !block.is_empty() {
-            hasher.input(block);
+            hasher.update(block);
         }
-        hasher.input(pass);
-        hasher.input(salt.as_ref());
-        block = hasher.result_reset().to_vec();
+        hasher.update(pass);
+        hasher.update(salt.as_ref());
+        block = hasher.finalize_reset().to_vec();
 
         // avoid subtract with overflow
         if count > 1 {
             for _ in 0..(count - 1) {
-                hasher.input(block);
-                block = hasher.result_reset().to_vec();
+                hasher.update(block);
+                block = hasher.finalize_reset().to_vec();
             }
         }
 

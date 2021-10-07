@@ -10,9 +10,9 @@ license = "MIT"
 keywords = ["evpkdf", "openssl", "cryptography"]
 
 [dependencies]
-digest = "0.9.0"
+digest = "0.9"
 
 [dev-dependencies]
-hex-literal = "0.3.3"
-md-5 = "0.9.1"
-sha-1 = "0.9.8"
+hex-literal = "0.3"
+md-5 = "0.9"
+sha-1 = "0.9"

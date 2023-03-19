@@ -71,7 +71,7 @@
 //! # License
 //!
 //! MIT
-use digest::Digest;
+use digest::{Digest, FixedOutputReset, HashMarker};
 
 /// Derives key from the given arguments.
 ///
@@ -89,14 +89,19 @@ use digest::Digest;
 ///     &mut output
 /// );
 /// ```
-pub fn evpkdf<D: Default + Digest>(pass: &[u8], salt: &[u8], count: usize, output: &mut [u8]) {
+pub fn evpkdf<D: Default + FixedOutputReset + HashMarker>(
+    pass: &[u8],
+    salt: &[u8],
+    count: usize,
+    output: &mut [u8],
+) {
     let mut hasher = D::default();
     let mut derived_key = Vec::with_capacity(output.len());
     let mut block = Vec::new();
 
     while derived_key.len() < output.len() {
         if !block.is_empty() {
-            hasher.update(block);
+            hasher.update(&block);
         }
         hasher.update(pass);
         hasher.update(salt.as_ref());
@@ -105,7 +110,7 @@ pub fn evpkdf<D: Default + Digest>(pass: &[u8], salt: &[u8], count: usize, outpu
         // avoid subtract with overflow
         if count > 1 {
             for _ in 0..(count - 1) {
-                hasher.update(block);
+                hasher.update(&block);
                 block = hasher.finalize_reset().to_vec();
             }
         }

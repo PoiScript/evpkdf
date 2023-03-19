@@ -6,9 +6,10 @@ Rust implementation of OpenSSL [EVP_bytesToKey] function.
 
 Notice that this approach is **too weak** for modern standard
 now. Newer applications should choice a more modern algorithm
-like [bcrypt], [pbkdf2] or [scrypt].
+like [argon2], [bcrypt], [pbkdf2] or [scrypt].
 
 [EVP_bytesToKey]: https://www.openssl.org/docs/man1.0.2/man3/EVP_BytesToKey.html
+[argon2]: https://crates.io/crates/argon2
 [bcrypt]: https://crates.io/crates/bcrypt
 [pbkdf2]: https://crates.io/crates/pbkdf2
 [scrypt]: https://crates.io/crates/scrypt
